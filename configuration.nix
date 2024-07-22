@@ -3,19 +3,18 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./env.nix
   ];
 
   environment.systemPackages = with pkgs; [
-    vim
     git
+    neovim
     sudo
+    vim
   ];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
-
-  services.openssh.enable = true;
-  networking.firewall.allowedTCPPorts = [ 22 ];
 
   users.users.nixos = {
     isNormalUser = true;
