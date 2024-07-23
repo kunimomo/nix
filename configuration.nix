@@ -21,11 +21,5 @@
     extraGroups = [ "wheel" ];
   };
 
-  security.sudo = {
-    enable = true;
-    wheelNeedsPassword = false;
-  };
-
   system.stateVersion = "24.05";
 }
-
