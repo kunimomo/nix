@@ -1,52 +1,15 @@
 {
-  description = "NixOS Configuration with Flakes";
+  description = "A very basic flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, ... }:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
-    in
-    {
-      nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            /etc/nixos/hardware-configuration.nix
-            /etc/nixos/env.nix
-            {
-              environment.systemPackages = with pkgs; [
-                git
-                neovim
-                sudo
-                vim
-              ];
+  outputs = { self, nixpkgs }: {
 
-              boot.loader.grub.enable = true;
-              boot.loader.grub.device = "/dev/sda";
+    packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
 
-              networking.hostName = "nixos";
-              time.timeZone = "Asia/Tokyo";
-              services.sshd.enable = true;
+    packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
 
-              users.users.nixos = {
-                isNormalUser = true;
-                extraGroups = [ "wheel" ];
-              };
-
-              security.sudo = {
-                enable = true;
-                wheelNeedsPassword = false;
-              };
-
-              system.stateVersion = "24.05";
-            }
-          ];
-        };
-      };
-    };
+  };
 }
-
