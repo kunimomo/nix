@@ -12,15 +12,12 @@
     in
     {
       nixosConfigurations = {
-        my-hostname = nixpkgs.lib.nixosSystem {
+        nixos = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
+            /etc/nixos/hardware-configuration.nix
+            /etc/nixos/env.nix
             {
-              imports = [
-                ./hardware-configuration.nix
-                ./env.nix
-              ];
-
               environment.systemPackages = with pkgs; [
                 git
                 neovim
@@ -45,10 +42,11 @@
                 wheelNeedsPassword = false;
               };
 
-	      system.stateVersion = "24.05";
+              system.stateVersion = "24.05";
             }
           ];
         };
       };
     };
 }
+
