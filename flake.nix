@@ -1,54 +1,38 @@
 {
-  description = "NixOS Configuration with Flakes";
-
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, ... }:
+  outputs = { self, nixpkgs, home-manager }: 
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-    in
-    {
-      nixosConfigurations = {
-        my-hostname = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            {
-              imports = [
-                ./hardware-configuration.nix
-                ./env.nix
-              ];
+      pythonPackages = pkgs.python38Packages;
+    in {
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./system/configuration.nix
+        ];
+      };
 
-              environment.systemPackages = with pkgs; [
-                git
-                neovim
-                sudo
-                vim
-              ];
-
-              boot.loader.grub.enable = true;
-              boot.loader.grub.device = "/dev/sda";
-
-              networking.hostName = "nixos";
-              time.timeZone = "Asia/Tokyo";
-              services.sshd.enable = true;
-
-              users.users.nixos = {
-                isNormalUser = true;
-                extraGroups = [ "wheel" ];
-              };
-
-              security.sudo = {
-                enable = true;
-                wheelNeedsPassword = false;
-              };
-
-	      system.stateVersion = "24.05";
-            }
-          ];
+      homeConfigurations = {
+        nixos = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs { inherit system; };
+	  modules = [
+	    ./home-manager/home.nix
+	  ];
         };
       };
-    };
+
+      devShell = pkgs.mkShell {
+        buildInputs = [
+          pythonPackages.mistune
+        ];
+      };
+  };
 }
