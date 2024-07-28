@@ -14,7 +14,7 @@
   # ネットワーク設定
   networking.interfaces.ens18 = {
     ipv4.addresses = [{
-      address = "192.168.0.3";
+      address =  "192.168.0.3"; 
       prefixLength = 24;
     }];
   };
