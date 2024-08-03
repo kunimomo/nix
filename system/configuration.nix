@@ -12,21 +12,19 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    git
-    sudo
-    tree
-    neovim
-    vim
-  ];
-  
+  programs = {
+    zsh = {
+      enable = true;
+    };
+  };
+
+  # ブートローダー設定
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+
+  # ユーザー設定
   users.users.nixos = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
   };
-
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-
 }
-
