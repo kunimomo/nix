@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib,  ... }:
 
 {
   imports = [ 
@@ -26,5 +26,10 @@
   users.users.nixos = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
+  };
+
+  systemd.services.systemd-oomd = {
+    enable = false;
+    wantedBy = lib.mkForce [];
   };
 }
