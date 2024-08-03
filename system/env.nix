@@ -1,4 +1,10 @@
-{
+{ config, pkgs, ... }:
+
+let
+  secrets = builtins.readFile ./secrets.sh;
+  sshPublicKey = builtins.getEnv "SSH_PUBLIC_KEY";
+
+in {
   # SSHサービスの設定
   services.openssh = {
     enable = true;
@@ -8,7 +14,7 @@
   # ユーザー設定
   users.users.nixos = {
     isNormalUser = true;
-    openssh.authorizedKeys.keys = [ (builtins.getEnv "SSH_PUBLIC_KEY") ];
+    openssh.authorizedKeys.keys = [ sshPublicKey ];
   };
 
   # ネットワーク設定
@@ -18,7 +24,7 @@
       prefixLength = 24;
     }];
   };
-
+  
   networking.defaultGateway = "192.168.0.1";
   networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
 }
