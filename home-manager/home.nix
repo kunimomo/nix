@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  initLua = builtins.readFile ./nvim/init.lua;
+  #initLua = builtins.readFile ./nvim/init.lua;
 in
 {
   programs.home-manager.enable = true;
@@ -23,7 +23,7 @@ in
     neovim = {
       enable = true;
       defaultEditor = true;
-      extraConfig = initLua;
+      #extraConfig = initLua;
     };
     zsh = {
       enable = true;
