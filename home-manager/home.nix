@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  initLua = builtins.readFile ./nvim/init.lua;
+  #initLua = builtins.readFile ./nvim/init.lua;
 in
 {
   programs.home-manager.enable = true;
@@ -11,6 +11,7 @@ in
   home.homeDirectory = "/home/nixos";
 
   home.packages = with pkgs; [
+    lua
     tree
     vim
   ];
@@ -22,7 +23,7 @@ in
     neovim = {
       enable = true;
       defaultEditor = true;
-      extraConfig = initLua;
+      #extraConfig = initLua;
     };
     zsh = {
       enable = true;

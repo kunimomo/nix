@@ -3,13 +3,22 @@
 let
   secrets = builtins.readFile ./secrets.sh;
   sshPublicKey = builtins.getEnv "SSH_PUBLIC_KEY";
-
 in {
   # SSHサービスの設定
-  services.openssh = {
+  services.openssh.settings = {
     enable = true;
     passwordAuthentication = false;
   };
+
+  # tailscaleの設定
+  #environment.systemPackages = [ pkgs.tailscale ];
+  #services.tailscale.enable = true;
+  #networking.firewall = {
+    #enable = true;
+    #trustedInterfaces = [ "tailscale0" ];
+    #allowedUDPPorts = [ config.services.tailscale.port ];
+    #allowedTCPPorts = [ 22 ];
+  #};
 
   # ユーザー設定
   users.users.nixos = {
