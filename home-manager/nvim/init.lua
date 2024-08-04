@@ -1,2 +1,1 @@
-vim.cmd('syntax on')
-vim.cmd('set number')
+vim.opt.syntax = 'on'

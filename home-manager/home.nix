@@ -11,6 +11,7 @@ in
   home.homeDirectory = "/home/nixos";
 
   home.packages = with pkgs; [
+    lua
     tree
     vim
   ];
