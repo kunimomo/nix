@@ -7,6 +7,7 @@ in {
   # SSHサービスの設定
   services.openssh.settings = {
     enable = true;
+    permitRootLogin = "no";
     passwordAuthentication = false;
   };
 
