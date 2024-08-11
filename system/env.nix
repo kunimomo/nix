@@ -5,8 +5,8 @@ let
   sshPublicKey = builtins.getEnv "SSH_PUBLIC_KEY";
 in {
   # SSHサービスの設定
-  services.openssh.settings = {
-    enable = true;
+  services.openssh.enable = true;
+  services.openssh = {
     permitRootLogin = "no";
     passwordAuthentication = false;
   };
