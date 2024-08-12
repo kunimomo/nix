@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  secrets = builtins.readFile ./secrets.sh;
+  secrets = builtins.readFile ./env.sh;
   sshPublicKey = builtins.getEnv "SSH_PUBLIC_KEY";
 in {
   # SSHサービスの有効化
