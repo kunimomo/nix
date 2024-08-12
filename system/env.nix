@@ -4,8 +4,9 @@ let
   secrets = builtins.readFile ./secrets.sh;
   sshPublicKey = builtins.getEnv "SSH_PUBLIC_KEY";
 in {
-  # SSHサービスの設定
+  # SSHサービスの有効化
   services.openssh.enable = true;
+  # SSHサービスの設定
   services.openssh = {
     permitRootLogin = "no";
     passwordAuthentication = false;
@@ -26,7 +27,6 @@ in {
       enable = true;
       trustedInterfaces = [ "tailscale0" ];
       allowedUDPPorts = [ config.services.tailscale.port ];
-      allowedTCPPorts = [ 22 ];
     };
   };
 
