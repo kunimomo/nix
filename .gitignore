@@ -1,2 +1,2 @@
-
-system/secrets.sh
+# .gitignore
+system/env.sh
