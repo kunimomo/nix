@@ -10,7 +10,8 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, home-manager, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = import nixpkgs { inherit system; };
       in {
@@ -23,7 +24,8 @@
             ];
           };
         };
-
+        
+	/**
         homeConfigurations = {
           myHome = home-manager.lib.homeManagerConfiguration {
             pkgs = pkgs;
@@ -32,6 +34,7 @@
             ];
           };
         };
+	**/
 
         devShells = {
           default = pkgs.mkShell {
