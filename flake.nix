@@ -10,13 +10,12 @@
   };
 
   outputs = { self, nixpkgs, home-manager, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
+    flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
       in {
         nixosConfigurations = {
-          nixos = nixpkgs.lib.nixosSystem {
+          nixos = pkgs.lib.nixosSystem {
             system = system;
             modules = [
               ./system/configuration.nix
@@ -28,16 +27,18 @@
         homeConfigurations = {
           myHome = home-manager.lib.homeManagerConfiguration {
             pkgs = pkgs;
-	    modules = [
-	      ./home-manager/home.nix
-	    ];
+            modules = [
+              ./home-manager/home.nix
+            ];
           };
         };
 
-        devShells.default = pkgs.mkShell {
-          buildInputs = [
-            pkgs.python38Packages.mistune_2
-          ];
+        devShells = {
+          default = pkgs.mkShell {
+            buildInputs = [
+              pkgs.python38Packages.mistune_2
+            ];
+          };
         };
       }
     );
